@@ -1,19 +1,14 @@
-import ReactFlow from 'reactflow';
-import LeftSideBar from './LeftSideBar';
-import RightSideBar from './RightSideBar';
 import DefaultNode from '@/components/DefaultNode';
 import OutputNode from '@/components/OutputNode';
 import InputNode from '@/components/InputNode';
 
-import { useCallback, useContext, useEffect, useMemo } from 'react';
-import { useNodesState, useEdgesState, addEdge } from 'reactflow';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useNodesState, useEdgesState, addEdge } from 'reactflow';
 import { NodeSelectionContext } from '@/pages/_app';
 
-import type { Edge, Connection, Node } from 'reactflow';
 import type { MouseEvent } from 'react';
-
-import 'reactflow/dist/style.css';
+import type { Edge, Connection, Node, Viewport } from 'reactflow';
 
 const initialNodes = [
   {
@@ -30,13 +25,19 @@ const initialNodes = [
 
 const initialEdges: Edge[] = [];
 
-const nodeTypes = {
+export const nodeTypes = {
   defaultNode: DefaultNode,
   inputNode: InputNode,
   outputNode: OutputNode
 };
 
-const MainSection = () => {
+const initViewport: Viewport = {
+  x: 100,
+  y: 100,
+  zoom: 1
+}
+
+const useMainSectionHooks = () => {
   const {
     selectedNode,
     isAddNode,
@@ -46,6 +47,7 @@ const MainSection = () => {
 
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [viewport, setViewport] = useState<Viewport>(initViewport);
 
   const onConnect = useCallback((value: Edge | Connection) => {
     const newEdge = { ...value, type: 'smoothstep' };
@@ -80,13 +82,13 @@ const MainSection = () => {
   useEffect(() => {
     if (isAddNode) {
       const xPos = selectedNode?.xPos ?? 0;
-      const yPos = (selectedNode?.yPos ?? 0) + 150;
+      const yPos = (selectedNode?.yPos ?? 0) + 120;
 
       const newNode = {
         id: uuidv4(),
         position: { x: xPos, y: yPos },
         type: 'inputNode',
-        data: { title: '', description: '', content: '' }
+        data: { title: 'New Node', description: '', content: '' }
       };
 
       setNodes((nds) => ([...nds, { ...newNode }]));
@@ -96,24 +98,26 @@ const MainSection = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isAddNode]);
 
-  return (
-    <div className='w-screen h-screen relative flex'>
-      <LeftSideBar nodes={nodes} />
-      <div className='w-[calc(100vw-(2*288px))] h-screen'>
-        <ReactFlow
-          nodes={nodes}
-          edges={edges}
-          onNodesChange={onNodesChange}
-          onEdgesChange={onEdgesChange}
-          onConnect={onConnect}
-          fitView
-          onNodeClick={onNodeClick}
-          nodeTypes={nodeTypes}
-        />
-      </div>
-      <RightSideBar onChangeNodeValue={onChangeNodeValues} />
-    </div>
-  );
+  const onClickOutside = useCallback(() => {
+    setSelectedNode(null);
+  }, [setSelectedNode]);
+
+  return {
+    data: {
+      nodes,
+      edges,
+      viewport
+    },
+    methods: {
+      onNodesChange,
+      onEdgesChange,
+      onConnect,
+      onNodeClick,
+      onChangeNodeValues,
+      setViewport,
+      onClickOutside
+    }
+  };
 };
 
-export default MainSection;
+export default useMainSectionHooks;
