@@ -2,7 +2,12 @@ import { useCallback, useContext, useState } from 'react';
 import { NodeSelectionContext } from '@/pages/_app';
 
 const useCustomNodeHooks = () => {
-  const { selectedNode, setIsAddNode, setSelectedNode } = useContext(NodeSelectionContext);
+  const {
+    selectedNode,
+    setIsAddNode,
+    setIsDuplicateNode,
+    setSelectedNode
+  } = useContext(NodeSelectionContext);
   const [isShowHandleLabel, setIsShowHandleLabel] = useState(false);
 
   const onClickHandle = useCallback((
@@ -16,6 +21,17 @@ const useCustomNodeHooks = () => {
     setSelectedNode({ id, type, xPos, yPos, data });
   }, [setIsAddNode, setSelectedNode]);
 
+  const onClickDuplicate = useCallback((
+    id: string,
+    type: string,
+    xPos: number,
+    yPos: number,
+    data: any
+  ) => () =>  {
+    setIsDuplicateNode(true);
+    setSelectedNode({ id, type, xPos, yPos, data });
+  }, [setIsDuplicateNode, setSelectedNode]);
+
   const onMouseEnter = useCallback(() => setIsShowHandleLabel(true), []);
   const onMouseLeave = useCallback(() => setIsShowHandleLabel(false), []);
 
@@ -23,7 +39,13 @@ const useCustomNodeHooks = () => {
 
   return {
     data: { isShowHandleLabel },
-    methods: { onClickHandle, onMouseEnter, onMouseLeave, isActive },
+    methods: {
+      onClickHandle,
+      onClickDuplicate,
+      onMouseEnter,
+      onMouseLeave,
+      isActive
+    },
   }
 };
 

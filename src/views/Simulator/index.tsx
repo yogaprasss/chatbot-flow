@@ -33,7 +33,7 @@ const Simulator: FC<SimulatorProps> = ({ nodes, edges }) => {
 
   return (
     <div className='z-30'>
-      <div className='w-[315px] h-[560px] bg-blue-100 overflow-y-scroll'>
+      <div className='w-[315px] h-[560px] bg-blue-100'>
         <div className='w-full h-[500px] flex flex-col justify-end px-3 gap-4 !overflow-y-scroll'>
           {chats.map((chat, index) => {
             const position = chat.type === 'output' ? 'justify-start' : 'justify-end';

@@ -15,7 +15,6 @@ const MainSection = () => {
     data: {
       nodes,
       edges,
-      viewport,
       isShowSimulator
     },
     methods: {
@@ -25,7 +24,10 @@ const MainSection = () => {
       onNodeClick,
       onChangeNodeValues,
       onClickOutside,
-      toggleSimulator
+      toggleSimulator,
+      onNodesDelete,
+      onClickExport,
+      onClickImport
     }
   } = useMainSectionHooks();
   
@@ -35,11 +37,15 @@ const MainSection = () => {
         <Popup isShow={isShowSimulator} onClose={toggleSimulator}>
           <Simulator nodes={nodes} edges={edges} />
         </Popup>
-        <TopBar onClickPlay={toggleSimulator} />
+        <TopBar
+          onClickPlay={toggleSimulator}
+          onClickExport={onClickExport}
+          onClickImport={onClickImport}
+        />
         <LeftSideBar nodes={nodes} />
         <div className='w-[calc(100vw-(2*256px))] h-screen'>
           <ReactFlow
-            defaultViewport={viewport}
+            fitView
             nodes={nodes}
             edges={edges}
             onNodesChange={onNodesChange}
@@ -48,6 +54,7 @@ const MainSection = () => {
             onNodeClick={onNodeClick}
             nodeTypes={nodeTypes}
             onPaneClick={onClickOutside}
+            onNodesDelete={onNodesDelete}
             className='bg-[#fcfcfc]'
           />
         </div>

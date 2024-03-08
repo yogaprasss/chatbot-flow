@@ -1,7 +1,5 @@
-import Image from 'next/image';
 import xss from 'xss';
 import useCustomNodeHooks from '../nodeHooks';
-import CopyIcon from '@/assets/copy-default.svg';
 
 import { FC } from 'react';
 import { Handle, Position } from 'reactflow';
@@ -43,9 +41,6 @@ const DefaultNode: FC<NodeProps<NodeDataProps>> = ({ id, type, xPos, yPos, data 
           <p className='text-blue-500 text-[8px]'>
             {id}
           </p>
-          <button>
-            <Image src={CopyIcon} alt='' width={10} height={10} />
-          </button>
         </div>
       </div>
       <div>

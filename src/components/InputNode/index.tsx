@@ -18,7 +18,7 @@ const handleStyle = {
 const InputNode: FC<NodeProps<NodeDataProps>> = ({ id, type, xPos, yPos, data }) => {
   const {
     data: { isShowHandleLabel },
-    methods: { onClickHandle, onMouseEnter, onMouseLeave, isActive }
+    methods: { onClickHandle, onClickDuplicate, onMouseEnter, onMouseLeave, isActive }
   } = useCustomNodeHooks();
 
   return (
@@ -43,7 +43,7 @@ const InputNode: FC<NodeProps<NodeDataProps>> = ({ id, type, xPos, yPos, data })
           <p className='text-green-500 text-[8px]'>
             {id}
           </p>
-          <button>
+          <button type='button' onClick={onClickDuplicate(id, type, xPos, yPos, data)}>
             <Image src={CopyIcon} alt='' width={10} height={10} />
           </button>
         </div>
