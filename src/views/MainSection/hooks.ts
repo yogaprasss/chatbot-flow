@@ -48,6 +48,7 @@ const useMainSectionHooks = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [viewport, setViewport] = useState<Viewport>(initViewport);
+  const [isShowSimulator, setIsShowSimulator] = useState(false);
 
   const onConnect = useCallback((value: Edge | Connection) => {
     const newEdge = { ...value, type: 'smoothstep' };
@@ -102,11 +103,14 @@ const useMainSectionHooks = () => {
     setSelectedNode(null);
   }, [setSelectedNode]);
 
+  const toggleSimulator = useCallback(() => setIsShowSimulator((value) => !value), []);
+
   return {
     data: {
       nodes,
       edges,
-      viewport
+      viewport,
+      isShowSimulator
     },
     methods: {
       onNodesChange,
@@ -115,7 +119,8 @@ const useMainSectionHooks = () => {
       onNodeClick,
       onChangeNodeValues,
       setViewport,
-      onClickOutside
+      onClickOutside,
+      toggleSimulator
     }
   };
 };

@@ -16,7 +16,7 @@ const RightSideBar: FC<RightSideBarProps> = ({ onChangeNodeValue }) => {
   } = useRightSideBarHooks();
 
   return (
-    <div className='w-64 h-screen shadow-md bg-white p-4 text-gray-700'>
+    <div className='w-64 h-screen shadow-md bg-white px-4 pb-4 pt-16 text-gray-700 overflow-y-scroll'>
       <h1 className='font-bold'>Property</h1>
       <br />
       {!!selectedNode && (

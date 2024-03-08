@@ -2,7 +2,7 @@ import { useCallback, useContext, useState } from 'react';
 import { NodeSelectionContext } from '@/pages/_app';
 
 const useCustomNodeHooks = () => {
-  const { setIsAddNode, setSelectedNode } = useContext(NodeSelectionContext);
+  const { selectedNode, setIsAddNode, setSelectedNode } = useContext(NodeSelectionContext);
   const [isShowHandleLabel, setIsShowHandleLabel] = useState(false);
 
   const onClickHandle = useCallback((
@@ -19,9 +19,11 @@ const useCustomNodeHooks = () => {
   const onMouseEnter = useCallback(() => setIsShowHandleLabel(true), []);
   const onMouseLeave = useCallback(() => setIsShowHandleLabel(false), []);
 
+  const isActive = useCallback((id: string) => id === selectedNode?.id, [selectedNode?.id]);
+
   return {
     data: { isShowHandleLabel },
-    methods: { onClickHandle, onMouseEnter, onMouseLeave },
+    methods: { onClickHandle, onMouseEnter, onMouseLeave, isActive },
   }
 };
 

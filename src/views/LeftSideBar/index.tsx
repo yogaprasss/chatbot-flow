@@ -21,7 +21,7 @@ const LeftSideBar: FC<LeftSideBarProps> = ({ nodes }) => {
   const { selectedNode, setSelectedNode } = useContext(NodeSelectionContext);
 
   return (
-    <div className='w-64 h-screen shadow-md bg-white p-4 text-gray-700'>
+    <div className='w-64 h-screen shadow-md bg-white px-4 pb-4 pt-16 text-gray-700 overflow-y-scroll'>
       <h1 className='font-bold'>Assets</h1>
       <br />
       <div className='flex flex-col gap-4'>
